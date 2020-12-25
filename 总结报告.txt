@@ -1,0 +1,32 @@
+本软件的总体结构：
+--------------------------------
+void	sig_int(int);
+用于捕捉中断信号
+--------------------------------
+void	promptShow();
+用于打印命令提示符
+先用getenv获得环境变量PROTYPE的值，再使用其替换“->”，实现自定义
+-----------------------------------------------------------------
+int	commandHandling(char *inCommand ,
+				char **outComand ,
+				int *isBg ,
+				char *inRDFile ,
+				char *outRDFile);
+处理输入命令
+inCommand是字符型数组首指针，包含用户从终端键入的所有命令
+outComand是字符串数组首指针，包含将命令分割后的每一部分
+isBg是引用传递的整形，标志是否需要后台运行
+inRDFile/outRDFile是字符型数组首指针，代表重定向文件名
+
+用户键入的命令由空格分开，通过inCommand传入，调用strtok()函数进行分割。
+分析分割后的命令，如果有<则将下一个命令写入inRDFile，有>则写入outRDFile,有&则更改*isBg为1.
+将分割后的命令全部写入outComand数组后,添加空字符串作为结尾
+------------------------------------------------------------------
+int main(void) 
+fgets接收终端命令,传给buf数组,再调用commandHandling函数进行处理,得到想要的结果.
+fork产生子进程
+若有输入重定向,则调用dup2将stdin重定向给指定文件fd
+若有输出重定向,则调用dup2将stdout重定向给指定文件fd
+之后再进行execvp()处理可变长命令
+若有后台循行任务,则在父进程中添加条件,不执行waitpid
+若无则执行waitpid等待子进程

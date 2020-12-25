@@ -1,0 +1,26 @@
+测试程序的各部分功能：
+1.再启动之前输入
+export PROTYPE=-
+启动软件./uglyshell
+输出：
+This is my uglyshell!
+-
+结论：可以实现提示符自定义
+
+2.启动软件后输入：
+ctrl+D
+输出：
+结束运行
+结论：可以通过组合按键结束运行
+
+3.输入：（loop为自己编写的一个无限循环程序while(1)，为验证后台功能）
+./loop &
+输出：
+background: ./loop [4193]
+结论：pid为4193的进程在后台运行，并未干扰前台程序
+
+4.输入：
+echo < test > testres
+输出：
+test的内容被复制到了testres中，并且终端无输出
+结论：重定向成功
